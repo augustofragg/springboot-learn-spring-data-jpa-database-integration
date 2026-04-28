@@ -33,9 +33,11 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<ApiResponse<UserEntity>> findAll(@RequestParam(value = "page",defaultValue = "0") Integer page,
-                                                    @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
+                                                    @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
+                                                           @RequestParam(value = "orderBy", defaultValue = "desc") String orderBy) {
 
-        Page<UserEntity> pageResponse = userService.findAll(page,pageSize);
+        Page<UserEntity> pageResponse = userService.findAll(page,pageSize,orderBy);
+
 
         return ResponseEntity.ok(new ApiResponse<>(
                 pageResponse.getContent(),

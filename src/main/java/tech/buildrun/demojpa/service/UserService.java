@@ -11,7 +11,6 @@ import tech.buildrun.demojpa.entity.UserEntity;
 import tech.buildrun.demojpa.repository.UserRepository;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 import static java.util.Objects.isNull;
@@ -35,9 +34,15 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public Page<UserEntity> findAll(Integer page, Integer pageSize) {
+    public Page<UserEntity> findAll(Integer page, Integer pageSize, String orderBy) {
 
-        PageRequest pageRequest = PageRequest.of(page,pageSize);
+        Sort.Direction direction = Sort.Direction.DESC;
+
+        if(orderBy.equalsIgnoreCase("asc")) {
+            direction = Sort.Direction.ASC;
+        }
+
+        PageRequest pageRequest = PageRequest.of(page,pageSize,direction,"createdAt");
 
         return userRepository.findAll(pageRequest);
     }
