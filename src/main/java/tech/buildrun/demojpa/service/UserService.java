@@ -65,4 +65,18 @@ public class UserService {
             user.get().setAge(dto.age());
         }
     }
+
+    public boolean deleteById(Long userId) {
+
+        boolean exist = userRepository.existsById(userId);
+
+        if(exist) {
+            userRepository.deleteById(userId);
+        }
+
+        return exist;
+    }
 }
+
+
+
