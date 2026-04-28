@@ -1,16 +1,13 @@
 package tech.buildrun.demojpa.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import tech.buildrun.demojpa.controller.dto.CreateUserDto;
 import tech.buildrun.demojpa.entity.UserEntity;
 import tech.buildrun.demojpa.service.UserService;
 
 import java.net.URI;
-import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/users")
@@ -29,6 +26,13 @@ public class UserController {
         UserEntity user = userService.createUser(dto);
 
         return ResponseEntity.created(URI.create("/users/" + user.getUserId())).build();
+    }
 
+    @GetMapping
+    public ResponseEntity<List<UserEntity>> findAll() {
+
+        List<UserEntity> users = userService.findAll();
+
+        return ResponseEntity.ok(users);
     }
 }

@@ -6,6 +6,7 @@ import tech.buildrun.demojpa.entity.UserEntity;
 import tech.buildrun.demojpa.repository.UserRepository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -24,5 +25,11 @@ public class UserService {
         user.setCreatedAt(LocalDateTime.now());
 
         return userRepository.save(user);
+    }
+
+    public List<UserEntity> findAll() {
+
+        return userRepository.findAll();
+
     }
 }
