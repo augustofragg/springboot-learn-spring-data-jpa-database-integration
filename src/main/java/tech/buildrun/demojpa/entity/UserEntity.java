@@ -19,7 +19,7 @@ public class UserEntity {
     @Column(name = "age")
     private Long age;
 
-    @Column(name = "createdAt")
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
 
     public UserEntity() {
