@@ -1,15 +1,16 @@
 package tech.buildrun.demojpa.controller;
 
-import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import tech.buildrun.demojpa.controller.dto.ApiResponse;
 import tech.buildrun.demojpa.controller.dto.CreateUserDto;
+import tech.buildrun.demojpa.controller.dto.PaginationResponse;
 import tech.buildrun.demojpa.controller.dto.UpdateUserDto;
 import tech.buildrun.demojpa.entity.UserEntity;
 import tech.buildrun.demojpa.service.UserService;
 
 import java.net.URI;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -25,18 +26,26 @@ public class UserController {
     @PostMapping
     public ResponseEntity<Void> createUser(@RequestBody CreateUserDto dto) {
 
-
         UserEntity user = userService.createUser(dto);
 
         return ResponseEntity.created(URI.create("/users/" + user.getUserId())).build();
     }
 
     @GetMapping
-    public ResponseEntity<List<UserEntity>> findAll() {
+    public ResponseEntity<ApiResponse<UserEntity>> findAll(@RequestParam(value = "page",defaultValue = "0") Integer page,
+                                                    @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
 
-        List<UserEntity> users = userService.findAll();
+        Page<UserEntity> pageResponse = userService.findAll(page,pageSize);
 
-        return ResponseEntity.ok(users);
+        return ResponseEntity.ok(new ApiResponse<>(
+                pageResponse.getContent(),
+                new PaginationResponse(
+                        pageResponse.getNumber(),
+                        pageResponse.getSize(),
+                        pageResponse.getTotalElements(),
+                        pageResponse.getTotalPages()
+                )
+        ));
     }
 
 
