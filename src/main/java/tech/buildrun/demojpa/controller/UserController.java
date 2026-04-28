@@ -1,5 +1,6 @@
 package tech.buildrun.demojpa.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tech.buildrun.demojpa.controller.dto.CreateUserDto;
@@ -8,6 +9,7 @@ import tech.buildrun.demojpa.service.UserService;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/users")
@@ -35,4 +37,16 @@ public class UserController {
 
         return ResponseEntity.ok(users);
     }
+
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<UserEntity> findById(@PathVariable("userId") Long userId) {
+
+        Optional<UserEntity> userEntity = userService.findById(userId);
+
+        return userEntity.isPresent() ?
+                ResponseEntity.ok(userEntity.get()) :
+                ResponseEntity.notFound().build();
+    }
+
 }

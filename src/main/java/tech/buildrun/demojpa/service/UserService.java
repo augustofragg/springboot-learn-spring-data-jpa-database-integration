@@ -7,6 +7,7 @@ import tech.buildrun.demojpa.repository.UserRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -31,5 +32,10 @@ public class UserService {
 
         return userRepository.findAll();
 
+    }
+
+    public Optional<UserEntity> findById(Long userId) {
+
+        return userRepository.findById(userId);
     }
 }
