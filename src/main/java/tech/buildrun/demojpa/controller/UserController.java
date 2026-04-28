@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tech.buildrun.demojpa.controller.dto.CreateUserDto;
+import tech.buildrun.demojpa.controller.dto.UpdateUserDto;
 import tech.buildrun.demojpa.entity.UserEntity;
 import tech.buildrun.demojpa.service.UserService;
 
@@ -39,7 +40,7 @@ public class UserController {
     }
 
 
-    @GetMapping("/{userId}")
+    @GetMapping(path = "/{userId}")
     public ResponseEntity<UserEntity> findById(@PathVariable("userId") Long userId) {
 
         Optional<UserEntity> userEntity = userService.findById(userId);
@@ -48,5 +49,19 @@ public class UserController {
                 ResponseEntity.ok(userEntity.get()) :
                 ResponseEntity.notFound().build();
     }
+
+
+    @PutMapping(path = "/{userId}")
+    public ResponseEntity<Void> updateUser(@PathVariable("userId") Long userId,
+                                           @RequestBody UpdateUserDto dto) {
+
+        Optional<UserEntity> user = userService.updateUserById(userId,dto);
+
+        return user.isPresent() ?
+                ResponseEntity.noContent().build() :
+                ResponseEntity.notFound().build();
+    }
+
+
 
 }
