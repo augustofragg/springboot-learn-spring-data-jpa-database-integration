@@ -33,10 +33,12 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<ApiResponse<UserEntity>> findAll(@RequestParam(value = "page",defaultValue = "0") Integer page,
-                                                    @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
-                                                           @RequestParam(value = "orderBy", defaultValue = "desc") String orderBy) {
+                                                           @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
+                                                           @RequestParam(value = "orderBy", defaultValue = "desc") String orderBy,
+                                                           @RequestParam(value = "name", required = false) String name,
+                                                           @RequestParam(value = "age", required = false) Long age) {
 
-        Page<UserEntity> pageResponse = userService.findAll(page,pageSize,orderBy);
+        Page<UserEntity> pageResponse = userService.findAll(page,pageSize,orderBy,name,age);
 
 
         return ResponseEntity.ok(new ApiResponse<>(
